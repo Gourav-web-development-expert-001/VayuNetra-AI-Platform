@@ -1,0 +1,144 @@
+.header {
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  margin: 16px 16px 0 calc(260px + 32px);
+  position: sticky;
+  top: 16px;
+  z-index: 90;
+}
+
+.header-left {
+  flex: 1;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  border-radius: 24px;
+  padding: 8px 16px;
+  width: 320px;
+  transition: all 0.3s ease;
+}
+
+.search-bar:focus-within {
+  border-color: var(--brand-cyan);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+}
+
+.search-icon {
+  color: var(--text-muted);
+  margin-right: 8px;
+}
+
+.search-bar input {
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  outline: none;
+  width: 100%;
+  font-family: inherit;
+}
+
+.search-bar input::placeholder {
+  color: var(--text-muted);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(16, 185, 129, 0.1);
+  padding: 6px 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--status-good);
+}
+
+.live-text {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--status-good);
+  letter-spacing: 0.05em;
+}
+
+.icon-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.icon-btn:hover {
+  color: var(--text-primary);
+}
+
+.notification-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: var(--status-poor);
+  color: white;
+  font-size: 0.6rem;
+  font-weight: 700;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-left: 1px solid var(--border-subtle);
+  padding-left: 24px;
+}
+
+.user-avatar {
+  background: rgba(255, 255, 255, 0.1);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.user-role {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}

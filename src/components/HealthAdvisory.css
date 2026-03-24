@@ -1,0 +1,13 @@
+.health-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  height: calc(100vh - 160px);
+}
+
+.check-item input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--brand-cyan);
+  cursor: pointer;
+}

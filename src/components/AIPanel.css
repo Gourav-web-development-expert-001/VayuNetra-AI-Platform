@@ -1,0 +1,137 @@
+.ai-panel-wrapper {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ai-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.ai-icon {
+  color: var(--brand-cyan);
+}
+
+.ai-header h2 {
+  font-size: 1.25rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.ai-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 20px;
+}
+
+.col-span-2 {
+  grid-column: span 2;
+}
+
+.ai-card {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.card-header h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.confidence-score {
+  font-size: 0.75rem;
+  background: rgba(0, 240, 255, 0.1);
+  color: var(--brand-cyan);
+  padding: 4px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--border-neon);
+}
+
+.chart-container {
+  flex: 1;
+  min-height: 200px;
+  position: relative;
+}
+
+.source-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.source-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.source-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.source-val {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.progress-bg {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 1s ease-out;
+}
+
+.alert-card {
+  background: rgba(239, 68, 68, 0.05);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.text-alert {
+  color: #fca5a5;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.anomaly-text {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 16px;
+  flex: 1;
+}
+
+.insight-tags {
+  display: flex;
+  gap: 8px;
+}
+
+.tag {
+  font-size: 0.7rem;
+  padding: 4px 8px;
+  background: rgba(239, 68, 68, 0.15);
+  color: #fca5a5;
+  border-radius: 4px;
+}

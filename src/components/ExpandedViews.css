@@ -1,0 +1,222 @@
+.expanded-view {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 24px;
+  overflow-y: auto;
+  padding-bottom: 40px !important;
+}
+
+.view-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.view-header h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Metrics Grid */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.metric-card {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.metric-icon {
+  background: rgba(0, 240, 255, 0.1);
+  padding: 12px;
+  border-radius: 12px;
+  width: 48px;
+  height: 48px;
+}
+
+.metric-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.metric-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.main-chart-panel {
+  padding: 24px;
+}
+
+.active-nodes {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--status-good);
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.p-4 {
+  padding: 24px;
+}
+
+.mb-4 {
+  margin-bottom: 16px;
+}
+
+.feed-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.feed-item {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.feed-item:last-child {
+  border-bottom: none;
+}
+
+.feed-time {
+  font-size: 0.7rem;
+  color: var(--brand-cyan);
+  margin-bottom: 4px;
+}
+
+.feed-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.calibration-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border-subtle);
+}
+
+.font-bold {
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+/* Admin Controls Styles */
+.admin-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+}
+
+.incident-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.incident-table th {
+  text-align: left;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.incident-table td {
+  padding: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+.incident-table tr:hover background {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.severity-tag {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.severity-critical { background: rgba(185, 28, 28, 0.2); color: var(--status-severe); border: 1px solid var(--status-severe); }
+.severity-high { background: rgba(239, 68, 68, 0.2); color: var(--status-poor); border: 1px solid var(--status-poor); }
+.severity-medium { background: rgba(245, 158, 11, 0.2); color: var(--status-moderate); border: 1px solid var(--status-moderate); }
+
+.action-btn-small {
+  background: transparent;
+  border: 1px solid var(--brand-cyan);
+  color: var(--brand-cyan);
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.action-btn-small:hover {
+  background: var(--brand-cyan);
+  color: #000;
+  box-shadow: 0 0 10px var(--brand-cyan-glow);
+}
+
+.directive-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.directive-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.directive-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.directive-info h4 {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.directive-info p {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}

@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+pandas
+numpy
+scikit-learn
+tensorflow
+torch
+joblib
+psycopg2-binary
+pydantic
+requests

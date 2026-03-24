@@ -1,0 +1,106 @@
+.live-map-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  height: calc(100vh - 160px);
+}
+
+.radar-panel, .ward-summary-panel {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  height: 100%;
+}
+
+.radar-container {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at center, rgba(0, 240, 255, 0.03), transparent);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.radar-axis {
+  position: absolute;
+  background: var(--border-subtle);
+}
+
+.axis-x {
+  width: 100%;
+  height: 1px;
+}
+
+.axis-y {
+  height: 100%;
+  width: 1px;
+}
+
+.radar-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px dashed var(--border-subtle);
+}
+
+.ring-1 { width: 30%; height: 30%; }
+.ring-2 { width: 60%; height: 60%; }
+.ring-3 { width: 90%; height: 90%; }
+
+.radar-dot {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.8rem;
+  color: #fff;
+  box-shadow: 0 0 15px currentColor;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.radar-dot:hover {
+  transform: translate(-50%, -50%) scale(1.2);
+}
+
+.ward-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.ward-list-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  border: 1px solid var(--border-subtle);
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+.ward-list-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.ward-badge {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: #fff;
+}
