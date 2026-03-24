@@ -4,18 +4,60 @@ import './Header.css';
 
 export default function Header({ toggleTheme, isDarkTheme, currentUser, onLoginClick, onLogout }) {
   const [showNotifications, setShowNotifications] = useState(false);
+  const [showSearchSuggestions, setShowSearchSuggestions] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
 
   const notifications = [
     { id: 1, title: 'AQI Over 300 in Ward 01', time: '10m ago', type: 'critical' },
     { id: 2, title: 'New Weather Forecast Available', time: '1h ago', type: 'info' },
     { id: 3, title: 'Health Advisory Issued', time: '2h ago', type: 'warning' },
   ];
+
+  const searchSuggestions = [
+    { text: "Ward 01 - Connaught Place", type: "Location" },
+    { text: "PM2.5 Sensor Array Beta", type: "Sensor" },
+    { text: "AQI Predictive Models", type: "Module" },
+    { text: "Emergency Anomaly Logs", type: "Data" }
+  ];
+
   return (
     <header className="header glass-panel">
       <div className="header-left">
-        <div className="search-bar">
+        <div 
+          className="search-bar" 
+          style={{ position: 'relative' }}
+          onMouseEnter={() => setShowSearchSuggestions(true)}
+          onMouseLeave={() => setShowSearchSuggestions(false)}
+        >
           <Search size={18} className="search-icon" />
-          <input type="text" placeholder="Search wards, sensors, or metrics..." />
+          <input 
+            type="text" 
+            placeholder="Search wards, sensors, or metrics..." 
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+            onFocus={() => setShowSearchSuggestions(true)}
+            onBlur={() => setTimeout(() => setShowSearchSuggestions(false), 200)}
+          />
+
+          {showSearchSuggestions && (
+            <div className="glass-panel animate-fade-in" style={{ position: 'absolute', top: 'calc(100% + 12px)', left: 0, width: '300px', padding: '16px', zIndex: 100, display: 'flex', flexDirection: 'column', gap: '8px', boxShadow: '0 10px 40px rgba(0,0,0,0.5)' }}>
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '4px', fontWeight: 700 }}>AI Suggested Queries</span>
+              {searchSuggestions.map((s, i) => (
+                <div 
+                  key={i} 
+                  className="hover-cyan" 
+                  onClick={() => {
+                    setSearchValue(s.text);
+                    setShowSearchSuggestions(false);
+                  }}
+                  style={{ padding: '10px 12px', borderRadius: '8px', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.02)', border: '1px solid transparent', transition: 'all 0.2s' }}
+                >
+                  <span style={{ color: 'var(--text-primary)', fontSize: '0.9rem' }}>{s.text}</span>
+                  <span style={{ fontSize: '0.65rem', color: 'var(--brand-cyan)', background: 'rgba(0, 240, 255, 0.05)', border: '1px solid rgba(0, 240, 255, 0.2)', padding: '4px 8px', borderRadius: '12px', fontWeight: 600 }}>{s.type}</span>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
       

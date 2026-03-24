@@ -28,7 +28,12 @@ export default function ForecastView({ mlData, ward }) {
     return `${generatePath()} L 100,100 L 0,100 Z`;
   };
 
-  const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  const getDynamicDays = () => {
+    const today = new Date().getDay(); // 0 is Sunday, 1 is Monday...
+    const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    return Array.from({ length: 7 }, (_, i) => dayNames[(today + i) % 7]);
+  };
+  const days = getDynamicDays();
 
   return (
     <main className="generic-view animate-fade-in" style={{ padding: '24px', flex: 1 }}>
@@ -62,7 +67,7 @@ export default function ForecastView({ mlData, ward }) {
             ))}
 
             {/* SVG Chart */}
-            <svg width="100%" height="100%" preserveAspectRatio="none" style={{ position: 'absolute', inset: 0, overflow: 'visible' }}>
+            <svg width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 100 100" style={{ position: 'absolute', inset: 0, overflow: 'visible' }}>
               <defs>
                 <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stopColor="rgba(0, 240, 255, 0.2)" />
@@ -71,18 +76,32 @@ export default function ForecastView({ mlData, ward }) {
               </defs>
               <path d={generateArea()} fill="url(#areaGradient)" />
               <path d={generatePath()} fill="none" stroke="var(--brand-cyan)" strokeWidth="3" vectorEffect="non-scaling-stroke" style={{ filter: 'drop-shadow(0 0 8px rgba(0, 240, 255, 0.5))' }} />
-              
-              {/* Dots */}
-              {dataPoints.map((val, i) => {
-                const x = (i / (dataPoints.length - 1)) * 100;
-                const y = 100 - (val / maxVal) * 100;
-                return (
-                  <circle key={i} cx={`${x}%`} cy={`${y}%`} r="5" fill="#000" stroke="var(--brand-cyan)" strokeWidth="2" style={{ cursor: 'pointer' }}>
-                    <title>{days[i]}: {val} AQI</title>
-                  </circle>
-                );
-              })}
             </svg>
+              
+            {/* HTML Nodes (to prevent ellipse stretching of SVG circles under preserveAspectRatio="none") */}
+            {dataPoints.map((val, i) => {
+              const x = (i / (dataPoints.length - 1)) * 100;
+              const y = 100 - (val / maxVal) * 100;
+              return (
+                <div 
+                  key={i} 
+                  title={`${days[i]}: ${val} AQI`}
+                  style={{ 
+                    position: 'absolute', 
+                    left: `${x}%`, 
+                    top: `${y}%`, 
+                    width: '12px', 
+                    height: '12px', 
+                    background: '#000', 
+                    border: '2px solid var(--brand-cyan)', 
+                    borderRadius: '50%', 
+                    transform: 'translate(-50%, -50%)',
+                    cursor: 'pointer',
+                    boxShadow: '0 0 10px rgba(0,240,255,0.5)'
+                  }} 
+                />
+              );
+            })}
           </div>
 
           {/* X Axis Labels */}

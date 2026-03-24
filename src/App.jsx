@@ -8,6 +8,7 @@ import AdminActionsView from './components/AdminActionsView';
 import ReportsView from './components/ReportsView';
 import GenericView from './components/GenericView';
 import AuthModal from './components/AuthModal';
+import SettingsView from './components/SettingsView';
 
 function App() {
   const [activeTab, setActiveTab] = useState('citymap');
@@ -77,9 +78,14 @@ function App() {
       case 'citymap': return <Dashboard setActiveWardGlobal={setActiveWardGlobal} />;
       case 'health': return <HealthAdvisory mlData={mlData} ward={activeWardGlobal} />;
       case 'forecast': return <ForecastView mlData={mlData} ward={activeWardGlobal} />;
-      case 'admin': return <AdminActionsView mlData={mlData} ward={activeWardGlobal} />;
-      case 'reports': return <ReportsView mlData={mlData} ward={activeWardGlobal} />;
-      default: return <GenericView tabId={activeTab} />;
+      case 'admin':
+        return <AdminActionsView mlData={mlData} ward={activeWardGlobal} />;
+      case 'reports':
+        return <ReportsView mlData={mlData} ward={activeWardGlobal} />;
+      case 'settings':
+        return <SettingsView isDarkTheme={isDarkTheme} toggleTheme={toggleTheme} />;
+      default:
+        return <GenericView title={activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} />;
     }
   };
 
