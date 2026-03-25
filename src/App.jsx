@@ -15,8 +15,14 @@ function App() {
   const [isDarkTheme, setIsDarkTheme] = useState(true);
   const [mlData, setMlData] = useState(null);
   const [activeWardGlobal, setActiveWardGlobal] = useState({ name: "Delhi Overview", aqi: 185 });
+  const [globalSearchQuery, setGlobalSearchQuery] = useState("");
   const [currentUser, setCurrentUser] = useState(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
+
+  const handleGlobalSearch = (query) => {
+    setGlobalSearchQuery(query);
+    if (activeTab !== 'citymap') setActiveTab('citymap');
+  };
 
   // Hook to simulate a real-time ML analysis request to the new Python backend
   useEffect(() => {
@@ -75,7 +81,7 @@ function App() {
 
   const renderContent = () => {
     switch (activeTab) {
-      case 'citymap': return <Dashboard setActiveWardGlobal={setActiveWardGlobal} />;
+      case 'citymap': return <Dashboard setActiveWardGlobal={setActiveWardGlobal} searchQuery={globalSearchQuery} />;
       case 'health': return <HealthAdvisory mlData={mlData} ward={activeWardGlobal} />;
       case 'forecast': return <ForecastView mlData={mlData} ward={activeWardGlobal} />;
       case 'admin':
@@ -98,6 +104,7 @@ function App() {
         currentUser={currentUser}
         onLoginClick={() => setShowAuthModal(true)}
         onLogout={() => setCurrentUser(null)}
+        onSearch={handleGlobalSearch}
       />
       {renderContent()}
 

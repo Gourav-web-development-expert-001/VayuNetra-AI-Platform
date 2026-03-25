@@ -11,6 +11,13 @@ export default function HealthPanel({ aqi }) {
     return { level: 'Hazardous', color: 'var(--status-hazardous)', text: 'Health warning of emergency conditions. Entire population is likely to be affected.' };
   };
 
+  const getGeneralTip = (val) => {
+    if (val <= 50) return 'Optimal air quality! Perfect conditions to open windows and ventilate indoor spaces.';
+    if (val <= 100) return 'Acceptable ventilation outside, but monitor conditions if you suffer from chronic allergies.';
+    if (val <= 200) return 'HVAC systems should be firmly set to recirculation mode in current conditions.';
+    return 'CRITICAL: Seal all windows immediately. Utilize high-grade indoor air purifiers rated for PM2.5.';
+  };
+
   const severity = getSeverity(aqi);
 
   return (
@@ -45,9 +52,9 @@ export default function HealthPanel({ aqi }) {
         </div>
       </div>
       
-      <div className="general-tip">
-        <Info size={14} className="info-icon" />
-        <span>HVAC systems should be set to recirculation mode in current conditions.</span>
+      <div className="general-tip" style={{ borderColor: severity.color, background: 'rgba(255,255,255,0.02)' }}>
+        <Info size={14} className="info-icon" style={{ color: severity.color }} />
+        <span>{getGeneralTip(aqi)}</span>
       </div>
     </div>
   );

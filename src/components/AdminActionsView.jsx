@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import { ShieldAlert, Download, MessageCircle, Mail, Car, Factory, Megaphone } from 'lucide-react';
+import { ShieldAlert, Download, MessageCircle, Mail, Car, Factory, Megaphone, CheckCircle, Loader } from 'lucide-react';
 
 export default function AdminActionsView({ mlData, ward }) {
   const [activeActions, setActiveActions] = useState([]);
+  const [simulatingAction, setSimulatingAction] = useState(null);
+  const [simStep, setSimStep] = useState(0);
+
   const recommendation = mlData?.recommendation || "Increase monitoring and advisories due to ambient anomalies.";
   const aqi = mlData?.aqi || 185;
   const isSevere = aqi > 200;
@@ -11,12 +14,27 @@ export default function AdminActionsView({ mlData, ward }) {
   const industrialDirective = isSevere ? 'Halt all non-essential construction. Issue stringent warning to nearby industrial sectors.' : 'Standard emissions monitoring active. No immediate halting required.';
   const publicSafetyDirective = isSevere ? 'Deploy anti-smog guns in high-density areas. Issue emergency public health advisory.' : 'Maintain street sweeping schedules to control PM10 dust.';
 
-  const toggleAction = (id) => {
-    if (activeActions.includes(id)) {
-      setActiveActions(activeActions.filter(aid => aid !== id));
-    } else {
-      setActiveActions([...activeActions, id]);
+  const handleActionClick = (actionObj) => {
+    if (activeActions.includes(actionObj.id)) {
+      setActiveActions(activeActions.filter(aid => aid !== actionObj.id));
+      return;
     }
+    setSimulatingAction(actionObj);
+    setSimStep(0);
+    setTimeout(() => {
+      setSimStep(1);
+      setTimeout(() => {
+        setSimStep(2);
+        setActiveActions(prev => [...prev, actionObj.id]);
+      }, 3000);
+    }, 2000);
+  };
+
+  const imageMap = {
+    'traffic': 'https://images.unsplash.com/photo-1545648507-28ece6a2ee1c?auto=format&fit=crop&w=400&q=80',
+    'mitigation': 'https://plus.unsplash.com/premium_photo-1663102371946-b6b553e410b2?auto=format&fit=crop&w=400&q=80',
+    'industrial': 'https://images.unsplash.com/photo-1541888049864-fbb438eebd74?auto=format&fit=crop&w=400&q=80',
+    'safety': 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=400&q=80'
   };
 
   const protocols = [
@@ -48,7 +66,7 @@ export default function AdminActionsView({ mlData, ward }) {
               return (
                 <div 
                   key={p.id}
-                  onClick={() => toggleAction(p.id)}
+                  onClick={() => handleActionClick(p)}
                   style={{ 
                     cursor: 'pointer',
                     background: isActive ? 'rgba(0, 240, 255, 0.1)' : 'rgba(255, 255, 255, 0.03)', 
@@ -100,6 +118,53 @@ export default function AdminActionsView({ mlData, ward }) {
           </div>
         </div>
       </div>
+
+      {/* Action Simulation Modal */}
+      {simulatingAction && (
+        <div className="animate-fade-in" style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(8px)' }}>
+          <div className="glass-panel" style={{ width: '450px', padding: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '24px', position: 'relative', overflow: 'hidden' }}>
+            
+            {simStep === 2 && <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '4px', background: 'var(--status-good)', boxShadow: '0 0 20px var(--status-good)' }}></div>}
+            
+            <h3 style={{ margin: 0, color: simStep === 2 ? '#fff' : 'var(--brand-cyan)', textAlign: 'center', fontSize: '1.4rem' }}>
+              {simStep === 2 ? 'Mission Accomplished' : `Deploying: ${simulatingAction.title}`}
+            </h3>
+            
+            <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '16px' }}>
+              
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px', opacity: simStep >= 0 ? 1 : 0.3 }}>
+                {simStep > 0 ? <CheckCircle size={24} className="text-cyan" /> : <Loader size={24} className="text-cyan pulse-spin" style={{ animation: 'spin 2s linear infinite' }} />}
+                <span style={{ fontSize: '1.1rem', color: simStep > 0 ? '#fff' : 'var(--text-muted)' }}>1. Emailing Respective Official Team...</span>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px', opacity: simStep >= 1 ? 1 : 0.4 }}>
+                 {simStep > 1 ? <CheckCircle size={24} className="text-cyan" /> : (simStep === 1 ? <Loader size={24} className="text-cyan pulse-spin" style={{ animation: 'spin 2s linear infinite' }} /> : <div style={{width: 24}}></div>)}
+                <span style={{ fontSize: '1.1rem', color: simStep > 1 ? '#fff' : 'var(--text-muted)' }}>2. Awaiting Field Verification...</span>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px', opacity: simStep >= 2 ? 1 : 0.4 }}>
+                 {simStep >= 2 ? <CheckCircle size={24} style={{ color: 'var(--status-good)' }} /> : <div style={{width: 24}}></div>}
+                 <div style={{ flex: 1 }}>
+                    <span style={{ display: 'block', marginBottom: '12px', fontSize: '1.1rem', color: simStep >= 2 ? '#fff' : 'var(--text-muted)' }}>3. Protocol Verified & Secured!</span>
+                    {simStep >= 2 && (
+                      <div className="animate-fade-in" style={{ width: '100%', height: '200px', background: `url(${imageMap[simulatingAction.id] || imageMap['traffic']}) center/cover`, borderRadius: '12px', border: '2px solid var(--status-good)', boxShadow: '0 4px 20px rgba(0,255,100,0.2)' }}></div>
+                    )}
+                 </div>
+              </div>
+            </div>
+
+            {simStep >= 2 && (
+              <button 
+                className="hover-glow animate-fade-in" 
+                onClick={() => setSimulatingAction(null)}
+                style={{ marginTop: '24px', width: '100%', padding: '16px', background: 'var(--status-good)', color: '#000', border: 'none', borderRadius: '8px', fontWeight: 700, fontSize: '1.1rem', cursor: 'pointer', transition: 'box-shadow 0.3s' }}
+              >
+                Acknowledge Log
+              </button>
+            )}
+          </div>
+        </div>
+      )}
     </main>
   );
 }

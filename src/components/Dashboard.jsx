@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronRight, ArrowLeft, CheckCircle, Loader } from 'lucide-react';
 import AIPanel from './AIPanel';
 import HealthPanel from './HealthPanel';
@@ -36,7 +36,8 @@ const MAP_DATA = {
   new_delhi: [
     { id: 'nd_1', name: 'Connaught Place', aqi: 120, status: 'moderate', risk: 'Medium', lat: 40, lng: 40, height: 50 },
     { id: 'nd_2', name: 'Chanakyapuri', aqi: 85, status: 'good', risk: 'Low', lat: 60, lng: 30, height: 35 },
-    { id: 'nd_3', name: 'Parliament Street', aqi: 95, status: 'good', risk: 'Low', lat: 50, lng: 60, height: 40 }
+    { id: 'nd_3', name: 'Parliament Street', aqi: 95, status: 'good', risk: 'Low', lat: 50, lng: 60, height: 40 },
+    { id: 'nd_4', name: 'Pragati Maidan', aqi: 195, status: 'poor', risk: 'High', lat: 45, lng: 70, height: 75 }
   ],
   north: [
     { id: 'n_1', name: 'Civil Lines', aqi: 140, status: 'moderate', risk: 'Medium', lat: 40, lng: 40, height: 55 },
@@ -98,7 +99,7 @@ const BREADCRUMB_MAP = {
   west: 'West Delhi'
 };
 
-export default function Dashboard() {
+export default function Dashboard({ setActiveWardGlobal, searchQuery }) {
   const [mapLevelHistory, setMapLevelHistory] = useState(['INDIA']);
   
   const currentLevelId = mapLevelHistory[mapLevelHistory.length - 1];
@@ -149,12 +150,41 @@ export default function Dashboard() {
 
   const handleNodeClick = (node) => {
     setActiveWard(node);
+    if (setActiveWardGlobal) setActiveWardGlobal(node);
+
     if (MAP_DATA[node.id]) {
-      // It has sub-level data, drill down
       setMapLevelHistory([...mapLevelHistory, node.id]);
       setActiveWard(MAP_DATA[node.id][0]);
+      if (setActiveWardGlobal) setActiveWardGlobal(MAP_DATA[node.id][0]);
     }
   };
+
+  useEffect(() => {
+    if (!searchQuery) return;
+    
+    let foundWard = null;
+    let foundLevel = null;
+    
+    for (const [levelId, nodes] of Object.entries(MAP_DATA)) {
+      if (levelId === 'INDIA') continue;
+      const node = nodes.find(n => n.name.toLowerCase().includes(searchQuery.toLowerCase()));
+      if (node) {
+        foundWard = node;
+        foundLevel = levelId;
+        break;
+      }
+    }
+
+    if (foundWard && foundLevel) {
+      let newHistory = ['INDIA', 'delhi'];
+      if (!['delhi', 'maharashtra', 'karnataka'].includes(foundLevel)) {
+        newHistory.push(foundLevel);
+      }
+      setMapLevelHistory(newHistory);
+      setActiveWard(foundWard);
+      if (setActiveWardGlobal) setActiveWardGlobal(foundWard);
+    }
+  }, [searchQuery, setActiveWardGlobal]);
 
   const navigateUp = (index) => {
     const newHistory = mapLevelHistory.slice(0, index + 1);
