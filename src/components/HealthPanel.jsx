@@ -18,6 +18,20 @@ export default function HealthPanel({ aqi }) {
     return 'CRITICAL: Seal all windows immediately. Utilize high-grade indoor air purifiers rated for PM2.5.';
   };
 
+  const getChildrenAdvice = (val) => {
+    if (val <= 50) return 'Perfectly safe for extended outdoor physical education and play.';
+    if (val <= 100) return 'Safe, but reduce prolonged strenuous activity if experiencing symptoms.';
+    if (val <= 200) return 'Limit prolonged outdoor exertion. Move physical activities indoors.';
+    return 'Avoid all outdoor physical activities entirely. Remain indoors.';
+  };
+
+  const getRespiratoryAdvice = (val) => {
+    if (val <= 50) return 'No special precautions needed. Enjoy the outdoors.';
+    if (val <= 100) return 'Monitor breathing closely. Limit activity if asthma symptoms emerge.';
+    if (val <= 200) return 'Keep rescue inhalers highly accessible. Mandate N95 masking outdoors.';
+    return 'High risk of acute respiratory distress. Avoid all outdoor exposure.';
+  };
+
   const severity = getSeverity(aqi);
 
   return (
@@ -39,7 +53,7 @@ export default function HealthPanel({ aqi }) {
           <div className="adv-icon"><UserPlus size={16} /></div>
           <div className="adv-content">
             <span className="adv-target">Children & Elderly</span>
-            <span className="adv-action">{aqi > 100 ? 'Limit prolonged outdoor exertion.' : 'Safe to be active outdoors.'}</span>
+            <span className="adv-action">{getChildrenAdvice(aqi)}</span>
           </div>
         </div>
         
@@ -47,7 +61,7 @@ export default function HealthPanel({ aqi }) {
           <div className="adv-icon"><Activity size={16} /></div>
           <div className="adv-content">
             <span className="adv-target">Respiratory Sensitive</span>
-            <span className="adv-action">{aqi > 50 ? 'Keep rescue inhalers accessible. Consider masking.' : 'No special precautions needed.'}</span>
+            <span className="adv-action">{getRespiratoryAdvice(aqi)}</span>
           </div>
         </div>
       </div>
